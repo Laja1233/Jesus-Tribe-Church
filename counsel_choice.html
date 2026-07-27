@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Your Path</title>
+    <link rel="shortcut icon" type="image/x-icon" href="rccg-logo.png">
+    <style>
+        :root {
+            --primary-color: #5c6bc0;
+            --primary-light: #8e99f3;
+            --primary-dark: #26418f;
+            --accent-color: #64b5f6;
+            --success-color: #66bb6a;
+            --warning-color: #ffa726;
+            --dark-text: #333333;
+            --medium-text: #555555;
+            --light-text: #ffffff;
+            --background-light: #f5f7ff;
+            --background-white: #ffffff;
+            --shadow-soft: 0 10px 30px rgba(92, 107, 192, 0.1);
+            --shadow-medium: 0 15px 35px rgba(92, 107, 192, 0.15);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-light);
+            color: var(--dark-text);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--background-white);
+            box-shadow: var(--shadow-soft);
+            padding: 20px 0;
+            position: relative;
+            z-index: 10;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo svg {
+            width: 40px;
+            height: 40px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        /* Main content */
+        main {
+            flex: 1;
+            padding: 60px 0;
+        }
+
+        .options-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .options-header h1 {
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 16px;
+        }
+
+        .options-header p {
+            font-size: 18px;
+            color: var(--medium-text);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Options Layout */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .option-card {
+            background-color: var(--background-white);
+            border-radius: 16px;
+            box-shadow: var(--shadow-soft);
+            overflow: hidden;
+            transition: var(--transition);
+            position: relative;
+            height: 100%;
+        }
+
+        .option-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .option-header {
+            padding: 24px;
+            background: linear-gradient(45deg, var(--primary-color), var(--primary-light));
+            color: var(--light-text);
+            position: relative;
+        }
+
+        .option-header h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .option-subheader {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .option-icon {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .option-icon svg {
+            width: 26px;
+            height: 26px;
+            fill: var(--light-text);
+        }
+
+        .option-content {
+            padding: 24px;
+        }
+
+        .option-features {
+            list-style: none;
+            margin-bottom: 24px;
+        }
+
+        .option-features li {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 16px;
+            font-size: 16px;
+            color: var(--medium-text);
+        }
+
+        .option-features li svg {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            flex-shrink: 0;
+            fill: var(--primary-color);
+        }
+
+        .option-select {
+            background-color: var(--primary-color);
+            color: var(--light-text);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            text-align: center;
+            display: block;
+            text-decoration: none;
+        }
+
+        .option-select:hover {
+            background-color: var(--primary-dark);
+        }
+
+        /* Format selector */
+        .format-section {
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        .format-section h2 {
+            font-size: 32px;
+            color: var(--primary-dark);
+            margin-bottom: 20px;
+        }
+
+        .format-section p {
+            font-size: 18px;
+            color: var(--medium-text);
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+
+        .format-options {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .format-card {
+            background-color: var(--background-white);
+            border-radius: 16px;
+            box-shadow: var(--shadow-soft);
+            padding: 24px;
+            width: 280px;
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .format-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .format-card.selected {
+            border-color: var(--primary-color);
+        }
+
+        .format-icon {
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        .format-icon svg {
+            width: 32px;
+            height: 32px;
+            fill: var(--light-text);
+        }
+
+        .format-card h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+            color: var(--primary-dark);
+        }
+
+        .format-card p {
+            font-size: 16px;
+            color: var(--medium-text);
+            margin-bottom: 0;
+        }
+
+        /* Continue button */
+        .continue-container {
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .continue-btn {
+            background-color: var(--success-color);
+            color: var(--light-text);
+            border: none;
+            border-radius: 8px;
+            padding: 14px 32px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .continue-btn:hover {
+            background-color: #4caf50;
+            transform: translateY(-2px);
+        }
+
+        .continue-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 900px) {
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .options-header h1 {
+                font-size: 32px;
+            }
+            
+            .format-options {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .format-card {
+                width: 100%;
+                max-width: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+               <img style="width: 30px;" src="images/rccg_single.png" alt="">
+                <span style="color: black; font-size: 17px;" class="logo-text">| Rose of Sharon Parish</span>
+            </div>
+            <a style="color: #000000; text-decoration: none;" href="counsel.html" class="cta-button">Go Back Home</a>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="options-header">
+                <h1>Choose Your Support Journey</h1>
+                <p>Select the counselling approach that feels right for you. You can choose as many as you want.</p>
+            </div>
+
+            <div class="options-grid">
+                <!-- Option 1: Individual counselling -->
+                <div class="option-card">
+                    <div class="option-header">
+                        <h2>Individual counselling</h2>
+                        <p class="option-subheader">One-on-one online personal support</p>
+                        <div class="option-icon">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="option-content">
+                        <ul class="option-features">
+                            <li>
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z"/>
+                                </svg>
+                                Personalized attention from a dedicated counsellor
+                            </li>
+                            <li>
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z"/>
+                                </svg>
+                                Tailored therapeutic approach to your needs
+                            </li>
+                            <li>
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z"/>
+                                </svg>
+                                Confidential environment for deep exploration
+                            </li>
+                            <li>
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z"/>
+                                </svg>
+                                Flexible scheduling options
+                            </li>
+                        </ul>
+                        <a href="#" class="option-select">Select Individual</a>
+                    </div>
+                </div>
+
+                <!-- Option 2: Group counselling -->
+                <div class="option-card">
+                    <div class="option-header" style="background: linear-gradient(45deg, #64b5f6, #90caf9);">
+                        <h2>Group counselling</h2>
+                        <p class="option-subheader">Community support and shared experiences</p>
+                        <div class="option-icon">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M16 11C17.66 11 18.99 9.66 18.99 8C18.99 6.34 17.66 5 16 5C14.34 5 13 6.34 13 8C13 9.66 14.34 11 16 11ZM8 11C9.66 11 10.99 9.66 10.99 8C10.99 6.34 9.66 5 8 5C6.34 5 5 6.34 5 8C5 9.66 6.34 11 8 11ZM8 13C5.67 13 1 14.17 1 16.5V19H15V16.5C15 14.17 10.33 13 8 13ZM16 13C15.71 13 15.38 13.02 15.03 13.05C16.19 13.89 17 15.02 17 16.5V19H23V16.5C23 14.17 18.33 13 16 13Z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="option-content">
+                        <ul class="option-features">
+                            <li>
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z"/>
+                                </svg>
+                                Learn from others' experiences and insights
+                            </li>
+                            <li>
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z"/>
+                                </svg>
+                                Build connections in a supportive community
+                            </li>
+                            <li>
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z"/>
+                                </svg>
+                                Practice social skills in a safe environment
+                            </li>
+                            <li>
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z"/>
+                                </svg>
+                                More affordable than individual counselling
+                            </li>
+                        </ul>
+                        <a href="#" class="option-select" style="background-color: #64b5f6;">Select Group</a>
+                    </div>
+                </div>
+
+                <!-- Option 3: Crisis Support -->
+                <div class="option-card">
+                    <div class="option-header" style="background: linear-gradient(45deg, #00447c, #03355f);">
+                        <h2>Email Counselling</h2>
+                        <p class="option-subheader">Thoughtful support at your convenience</p>
+                        <div class="option-icon">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="option-content">
+                        <ul class="option-features">
+                            <li>
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z"/>
+                                </svg>
+                                Private, asynchronous communication with a professional counsellor
+                            </li>
+                            <li>
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z"/>
+                                </svg>
+                                Time to reflect and express yourself thoughtfully
+                            </li>
+                            <li>
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z"/>
+                                </svg>
+                                Personalized responses within 24-48 hours
+                            </li>
+                            <li>
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z"/>
+                                </svg>
+                                Ongoing support through secure email exchanges
+                            </li>
+                        </ul>
+                        <a href="#" class="option-select" style="background-color: #00447c;">Start Email Counselling</a>
+                    </div>
+                </div>
+
+                
+            </div>
+
+            </div>
+            </main>
+            </body>
+            </html>
+            

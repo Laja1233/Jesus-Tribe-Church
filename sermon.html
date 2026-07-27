@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sermons - Rose of Sharon Parish | Intermediary Hub: Jesus Tribe</title>
+
+    <!-- favicons
+    ================================================== -->
+    <link rel="shortcut icon" type="image/x-icon" href="rccg-logo.png">
+
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        .loader-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 90%; /* Limit container width on small screens */
+            max-width: 300px; /* Maximum width of the container */
+        }
+
+        .logo {
+            width: 100%;
+            max-width: 300px; /* Maximum width of the logo */
+            max-height: 50vh; /* Maximum height of the logo */
+            object-fit: contain; /* Maintain aspect ratio */
+            margin-bottom: 20px;
+            animation: pulse 2s infinite ease-in-out;
+        }
+        .loader {
+            width: 100%;
+            height: 4px;
+            background-color: red;
+            overflow: hidden;
+            position: relative;
+        }
+        .loader::after {
+            content: '';
+            display: block;
+            width: 40%;
+            height: 100%;
+            background-color: whitesmoke;
+            position: absolute;
+            left: -40%;
+            animation: loading 2s infinite ease-in-out;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+        @keyframes loading {
+            0% { left: -40%; }
+            100% { left: 100%; }
+        }
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="loader-container">
+        <img src="images/sermons.png" alt="Sermons" class="logo">
+        <div class="loader"></div>
+    </div>
+
+    <script>
+        // Fade out and redirect after animation
+        setTimeout(() => {
+            document.body.style.animation = 'fadeOut 0.5s ease-out forwards';
+            setTimeout(() => {
+                window.location.href = "bibleverse.html";
+            }, 500);
+        }, 4000);
+    </script>
+</body>
+</html>

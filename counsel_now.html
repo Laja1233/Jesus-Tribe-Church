@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talk to a Counsellor - Rose of Sharon Parish</title>
+    <link rel="shortcut icon" type="image/x-icon" href="rccg-logo.png">
+    <style>
+        :root {
+            --primary-color: #26418f;
+            --primary-light: #5c6bc0;
+            --primary-dark: #1a2d5f;
+            --danger-color: #dc3545;
+            --light-text: #ffffff;
+            --dark-text: #333333;
+            --medium-text: #555555;
+            --background-light: #f5f7ff;
+            --background-white: #ffffff;
+            --shadow-soft: 0 10px 30px rgba(38, 65, 143, 0.1);
+            --shadow-medium: 0 15px 35px rgba(38, 65, 143, 0.15);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-light);
+            color: var(--dark-text);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .back-button {
+            margin-bottom: 30px;
+        }
+
+        .back-link {
+            color: var(--dark-text);
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            background-color: var(--background-white);
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .back-link:hover {
+            color: var(--primary-color);
+            transform: translateX(-5px);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .page-header h1 {
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 16px;
+        }
+
+        .page-header p {
+            font-size: 18px;
+            color: var(--medium-text);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Calendly Section */
+        .calendly-section {
+            background-color: var(--background-white);
+            border-radius: 16px;
+            box-shadow: var(--shadow-soft);
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+
+        .calendly-section h2 {
+            font-size: 28px;
+            color: var(--primary-dark);
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .calendly-inline-widget {
+            min-width: 320px;
+            height: 700px;
+            border-radius: 10px;
+        }
+
+        /* Emergency Section */
+        .emergency-section {
+            background: linear-gradient(45deg, var(--danger-color), #ee5a6f);
+            border-radius: 16px;
+            box-shadow: var(--shadow-medium);
+            padding: 40px;
+            text-align: center;
+            color: var(--light-text);
+        }
+
+        .emergency-section h2 {
+            font-size: 28px;
+            margin-bottom: 16px;
+            color: var(--light-text);
+        }
+
+        .emergency-section p {
+            font-size: 18px;
+            margin-bottom: 24px;
+            opacity: 0.95;
+        }
+
+        .emergency-btn {
+            background-color: var(--background-white);
+            color: var(--danger-color);
+            border: none;
+            border-radius: 8px;
+            padding: 14px 32px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .emergency-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 15px;
+            }
+
+            .page-header h1 {
+                font-size: 32px;
+            }
+
+            .calendly-section,
+            .emergency-section {
+                padding: 24px;
+            }
+
+            .calendly-section h2,
+            .emergency-section h2 {
+                font-size: 24px;
+            }
+
+            .calendly-inline-widget {
+                height: 600px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="back-button">
+            <a href="index.html" class="back-link">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                Go Back Home
+            </a>
+        </div>
+
+        <div class="page-header">
+            <h1>Talk to a Counsellor</h1>
+            <p>We're here to listen, support, and walk with you through life's challenges. Schedule a session below or reach out immediately if you need urgent support.</p>
+        </div>
+
+        <!-- Calendly Section -->
+        <div class="calendly-section">
+            <h2>Schedule Your Counselling Session</h2>
+            <div class="calendly-inline-widget" 
+                 data-url="https://calendly.com/jesustribecounsellor/30min">
+            </div>
+            <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+        </div>
+
+        <!-- Emergency Contact Section -->
+        <div class="emergency-section">
+            <h2>Need to Talk Right Now?</h2>
+            <p>If you need immediate support, don't wait. Call us directly and speak with a counsellor.</p>
+            <a href="tel:+2349119272290" class="emergency-btn">
+                📞 Call: 0911 927 2290
+            </a>
+        </div>
+    </div>
+</body>
+</html>

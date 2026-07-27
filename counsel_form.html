@@ -1,0 +1,196 @@
+<div class="option-content">
+    <h3 class="form-title">Anonymous Support Request</h3>
+    <p class="form-description">Share your concerns privately. We'll respond to your provided email address.</p>
+    
+    <form class="support-form">
+        <div class="form-group">
+            <label for="email">Email for response (required)</label>
+            <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="support-type">What type of support do you need?</label>
+            <select id="support-type" name="support-type">
+                <option value="emotional">Emotional Support</option>
+                <option value="crisis">Crisis Intervention</option>
+                <option value="resources">Resource Connection</option>
+                <option value="advice">General Advice</option>
+                <option value="other">Other (please specify below)</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="message">Tell us what's going on (anonymous & confidential)</label>
+            <textarea id="message" name="message" rows="5" placeholder="Share your situation or concerns here. No personal identifiers are needed."></textarea>
+        </div>
+        
+        <div class="form-group checkbox-group">
+            <input type="checkbox" id="urgent" name="urgent">
+            <label for="urgent">This is urgent - I need help as soon as possible</label>
+        </div>
+        
+        <div class="form-benefits">
+            <div class="benefit-item">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z"/>
+                </svg>
+                <span>24/7 response from trained counselors</span>
+            </div>
+            <div class="benefit-item">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z"/>
+                </svg>
+                <span>Customized strategies for your situation</span>
+            </div>
+            <div class="benefit-item">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z"/>
+                </svg>
+                <span>Connection to additional resources</span>
+            </div>
+            <div class="benefit-item">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z"/>
+                </svg>
+                <span>Completely anonymous support</span>
+            </div>
+        </div>
+        
+        <button type="submit" class="submit-button">Send Anonymous Request</button>
+        
+        <p class="privacy-note">Your privacy matters: We only use your email to respond to your request. We won't share your information with third parties.</p>
+    </form>
+    
+    <style>
+        .option-content {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            padding: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .form-title {
+            font-size: 24px;
+            color: #00447c;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .form-description {
+            color: #666;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .support-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .form-group label {
+            font-weight: 500;
+            color: #444;
+        }
+        
+        input[type="email"],
+        select,
+        textarea {
+            padding: 12px 16px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="email"]:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #00447c;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(0,68,124,0.1);
+        }
+        
+        .checkbox-group {
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #00447c;
+        }
+        
+        .form-benefits {
+            background-color: #f7f9fc;
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .benefit-item svg {
+            width: 20px;
+            height: 20px;
+            fill: #00447c;
+            flex-shrink: 0;
+        }
+        
+        .benefit-item span {
+            color: #555;
+        }
+        
+        .submit-button {
+            background-color: #00447c;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 14px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            margin-top: 10px;
+        }
+        
+        .submit-button:hover {
+            background-color: #003566;
+            transform: translateY(-2px);
+        }
+        
+        .privacy-note {
+            font-size: 14px;
+            color: #777;
+            text-align: center;
+            margin-top: 15px;
+        }
+        
+        @media (max-width: 600px) {
+            .option-content {
+                padding: 20px;
+                border-radius: 10px;
+            }
+            
+            .form-benefits {
+                padding: 15px;
+            }
+        }
+    </style>
+</div>

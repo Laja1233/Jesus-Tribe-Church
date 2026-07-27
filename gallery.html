@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Image Slider with Magnifier and Animation</title>
+  <style>
+    /* Basic styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #121212;
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .slider-container {
+      display: flex;
+      position: relative;
+      width: 90%;
+      height: 70vh;
+      max-width: 1200px;
+      overflow: hidden;
+      border-radius: 15px;
+      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.6);
+    }
+
+    .slide {
+      min-width: 100%;
+      transition: 0.5s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+      transition: transform 0.4s;
+    }
+
+    /* Styles for magnifier effect */
+    .magnifier {
+      cursor: zoom-in;
+    }
+
+    .magnifier:hover {
+      transform: scale(1.2); /* Zoom effect */
+    }
+
+    /* Floating effect for moving image */
+    .moving-image img {
+      animation: floating 6s ease-in-out infinite;
+    }
+
+    @keyframes floating {
+      0% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-20px);
+      }
+      100% {
+        transform: translateY(0px);
+      }
+    }
+
+    /* Navigation button styles */
+    .nav-buttons {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+    }
+
+    .nav-buttons button {
+      background-color: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      font-size: 2rem;
+      padding: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .nav-buttons button:hover {
+      background-color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .slider-container {
+        height: 60vh;
+      }
+
+      img {
+        object-fit: contain;
+      }
+
+      .nav-buttons button {
+        font-size: 1.5rem;
+        padding: 8px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .slider-container {
+        height: 50vh;
+      }
+
+      img {
+        object-fit: contain;
+      }
+
+      .nav-buttons button {
+        font-size: 1.2rem;
+        padding: 6px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .slider-container {
+        height: 40vh;
+      }
+
+      img {
+        object-fit: contain;
+      }
+
+      .nav-buttons button {
+        font-size: 1rem;
+        padding: 5px;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="slider-container">
+    <!-- First Slide with Robot and Heart -->
+    <div class="slide">
+      <img src="images/about.jpeg" alt="Robot holding a digital heart" class="magnifier">
+    </div>
+
+    <!-- Second Slide with Hologram and Face -->
+    <div class="slide moving-image">
+      <img src="hologram-face.png" alt="Hologram with woman's face" class="floating">
+    </div>
+
+    <!-- Third Slide with Hands and Light -->
+    <div class="slide">
+      <img src="hands-light.png" alt="Hands holding glowing light">
+    </div>
+  </div>
+
+  <!-- Add navigation buttons -->
+  <div class="nav-buttons">
+    <button class="prev">❮</button>
+    <button class="next">❯</button>
+  </div>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+
+    document.querySelector('.next').addEventListener('click', () => {
+      moveToNextSlide();
+    });
+
+    document.querySelector('.prev').addEventListener('click', () => {
+      moveToPrevSlide();
+    });
+
+    function moveToNextSlide() {
+      slides[currentSlide].style.transform = 'translateX(-100%)';
+      currentSlide = (currentSlide + 1) % slides.length;
+      slides[currentSlide].style.transform = 'translateX(0)';
+    }
+
+    function moveToPrevSlide() {
+      slides[currentSlide].style.transform = 'translateX(100%)';
+      currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+      slides[currentSlide].style.transform = 'translateX(0)';
+    }
+  </script>
+
+</body>
+</html>
