@@ -14,6 +14,195 @@
     ================================================== -->
     <link rel="stylesheet" href="css/vendor.css">
     <link rel="stylesheet" href="css/styles.css">
+    <style>
+/* ===================================================================
+ * # GALLERY SLIDESHOW
+ * Uses the site's tokens from styles.css (--color-1, --color-2, --border-radius)
+ * ------------------------------------------------------------------- */
+.s-gallery {
+    padding-top      : var(--vspace-3, 6rem);
+    padding-bottom   : var(--vspace-3, 6rem);
+    background-color : var(--color-white, #fff);
+}
+
+.s-gallery__stage {
+    position      : relative;
+    aspect-ratio  : 16 / 9;
+    max-height    : 72vh;
+    width         : 100%;
+    overflow      : hidden;
+    border-radius : var(--border-radius, 8px);
+    background    : var(--color-1, #111049);
+    touch-action  : pan-y;
+}
+
+.s-gallery__slide {
+    position   : absolute;
+    inset      : 0;
+    margin     : 0;
+    opacity    : 0;
+    visibility : hidden;
+    transition : opacity .7s ease, visibility 0s linear .7s;
+    background :
+        radial-gradient(120% 90% at 85% 10%, hsla(12, 89%, 39%, .55), transparent 60%),
+        var(--color-1, #111049);
+}
+
+.s-gallery__slide.is-active {
+    opacity    : 1;
+    visibility : visible;
+    transition : opacity .7s ease, visibility 0s;
+}
+
+.s-gallery__slide img {
+    display    : block;
+    width      : 100%;
+    height     : 100%;
+    margin     : 0;
+    object-fit : cover;
+}
+
+/* when a photo file is missing, the navy panel + caption stays visible */
+.s-gallery__slide.is-missing img { display: none; }
+
+.s-gallery__slide.is-missing::after {
+    content     : attr(data-title);
+    position    : absolute;
+    inset       : 0;
+    display     : flex;
+    align-items : center;
+    justify-content: center;
+    padding     : 2rem;
+    color       : rgba(255, 255, 255, .9);
+    font-family : var(--font-2, sans-serif);
+    font-size   : clamp(2rem, 5vw, 4rem);
+    font-weight : 600;
+    text-align  : center;
+}
+
+/* progress segments: one per slide, the active one fills over the slide duration */
+.s-gallery__progress {
+    display : flex;
+    gap     : .6rem;
+    margin  : 1.2rem 0 0;
+    padding : 0;
+    list-style: none;
+}
+
+.s-gallery__progress li { flex: 1; margin: 0; padding: 0; }
+
+.s-gallery__seg {
+    position   : relative;
+    display    : block;
+    width      : 100%;
+    height     : 1.6rem;           /* tall hit area, thin visible bar */
+    padding    : 0;
+    border     : 0;
+    background : transparent;
+    cursor     : pointer;
+}
+
+.s-gallery__seg::before,
+.s-gallery__seg::after {
+    content       : "";
+    position      : absolute;
+    left          : 0;
+    right         : 0;
+    top           : 50%;
+    height        : 4px;
+    margin-top    : -2px;
+    border-radius : 2px;
+}
+
+.s-gallery__seg::before { background: rgba(17, 16, 73, .16); }
+
+.s-gallery__seg::after {
+    background       : var(--color-2, #ba2d0b);
+    transform        : scaleX(0);
+    transform-origin : left center;
+}
+
+.s-gallery__seg.is-done::after { transform: scaleX(1); }
+
+.s-gallery__seg.is-active::after {
+    animation : s-gallery-fill var(--gallery-duration, 5s) linear forwards;
+}
+
+.s-gallery.is-paused .s-gallery__seg.is-active::after { animation-play-state: paused; }
+
+.s-gallery.is-static .s-gallery__seg.is-active::after { animation: none; transform: scaleX(1); }
+
+@keyframes s-gallery-fill { to { transform: scaleX(1); } }
+
+.s-gallery__bar {
+    display         : flex;
+    align-items     : center;
+    justify-content : space-between;
+    gap             : 2rem;
+    margin-top      : .6rem;
+}
+
+.s-gallery__caption {
+    margin      : 0;
+    color       : var(--color-1, #111049);
+    font-family : var(--font-2, sans-serif);
+    font-size   : 2rem;
+    font-weight : 500;
+    line-height : 1.4;
+}
+
+.s-gallery__controls { display: flex; align-items: center; gap: .8rem; flex-shrink: 0; }
+
+.s-gallery__count {
+    min-width   : 5.2rem;
+    margin-right: .4rem;
+    color       : var(--color-gray-16, #585958);
+    font-size   : 1.5rem;
+    font-variant-numeric: tabular-nums;
+    text-align  : right;
+}
+
+.s-gallery__btn {
+    display        : inline-flex;
+    align-items    : center;
+    justify-content: center;
+    width          : 4.4rem;
+    height         : 4.4rem;
+    padding        : 0;
+    border         : 1px solid rgba(17, 16, 73, .25);
+    border-radius  : 50%;
+    background     : #fff;
+    color          : var(--color-1, #111049);
+    cursor         : pointer;
+    transition     : background-color .2s, color .2s, border-color .2s;
+}
+
+.s-gallery__btn:hover { background: var(--color-1, #111049); border-color: var(--color-1, #111049); color: #fff; }
+
+.s-gallery__btn svg { width: 2rem; height: 2rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+.s-gallery__toggle .icon-play { display: none; }
+.s-gallery.is-stopped .s-gallery__toggle .icon-play  { display: block; }
+.s-gallery.is-stopped .s-gallery__toggle .icon-pause { display: none; }
+
+.s-gallery__seg:focus-visible,
+.s-gallery__btn:focus-visible {
+    outline        : 2px solid var(--color-2, #ba2d0b);
+    outline-offset : 3px;
+}
+
+@media screen and (max-width: 600px) {
+    .s-gallery__stage { aspect-ratio: 4 / 3; }
+    .s-gallery__bar   { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .s-gallery__caption { font-size: 1.8rem; }
+    .s-gallery__controls { width: 100%; justify-content: space-between; }
+    .s-gallery__count { margin-right: auto; text-align: left; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .s-gallery__slide, .s-gallery__slide.is-active { transition: none; }
+}
+    </style>
 
     <!-- favicons
     ================================================== -->
@@ -324,6 +513,76 @@
             </section> <!-- end s-about -->
 
 
+            <!-- gallery slideshow
+            ----------------------------------------------- -->
+            <!-- To use your own photos, save them as images/gallery/slide-1.jpg ... slide-5.jpg (16:9, about 1600x900),
+                 or edit the src, alt and data-title of each <figure>. Add or remove a <figure> and its matching <li> button together. -->
+            <section id="gallery" class="s-gallery target-section" data-gallery aria-roledescription="carousel" aria-label="Life at Jesus Tribe photos">
+
+                <div class="row section-header">
+                    <div class="column lg-6 stack-on-1000 title-block">
+                        <h2 class="title text-display-1">Life at Jesus Tribe</h2>
+                    </div>
+                    <div class="column lg-6 stack-on-1000 desc-block">
+                        <p class="desc lead">
+                            Worship, study, fellowship and service from our parish family.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="column lg-12">
+
+                        <div class="s-gallery__stage">
+                            <figure class="s-gallery__slide" data-title="Sunday worship" aria-hidden="true">
+                                <img src="images/gallery/slide-1.jpg" alt="Congregation worshipping together on a Sunday" width="1600" height="900" decoding="async">
+                            </figure>
+                            <figure class="s-gallery__slide" data-title="Bible study" aria-hidden="true">
+                                <img src="images/gallery/slide-2.jpg" alt="Members studying the Word together" width="1600" height="900" loading="lazy" decoding="async">
+                            </figure>
+                            <figure class="s-gallery__slide" data-title="Fellowship" aria-hidden="true">
+                                <img src="images/gallery/slide-3.jpg" alt="Parish members sharing a meal and conversation" width="1600" height="900" loading="lazy" decoding="async">
+                            </figure>
+                            <figure class="s-gallery__slide" data-title="Prayer and counselling" aria-hidden="true">
+                                <img src="images/gallery/slide-4.jpg" alt="Members praying together" width="1600" height="900" loading="lazy" decoding="async">
+                            </figure>
+                            <figure class="s-gallery__slide" data-title="Community outreach" aria-hidden="true">
+                                <img src="images/gallery/slide-5.jpg" alt="Parish volunteers serving the community" width="1600" height="900" loading="lazy" decoding="async">
+                            </figure>
+                        </div>
+
+                        <ul class="s-gallery__progress">
+                            <li><button type="button" class="s-gallery__seg" aria-label="Show photo 1: Sunday worship"></button></li>
+                            <li><button type="button" class="s-gallery__seg" aria-label="Show photo 2: Bible study"></button></li>
+                            <li><button type="button" class="s-gallery__seg" aria-label="Show photo 3: Fellowship"></button></li>
+                            <li><button type="button" class="s-gallery__seg" aria-label="Show photo 4: Prayer and counselling"></button></li>
+                            <li><button type="button" class="s-gallery__seg" aria-label="Show photo 5: Community outreach"></button></li>
+                        </ul>
+
+                        <div class="s-gallery__bar">
+                            <p class="s-gallery__caption"></p>
+
+                            <div class="s-gallery__controls">
+                                <span class="s-gallery__count" aria-hidden="true"></span>
+                                <button type="button" class="s-gallery__btn" data-gallery-prev aria-label="Previous photo">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+                                </button>
+                                <button type="button" class="s-gallery__btn s-gallery__toggle" data-gallery-toggle aria-label="Pause slideshow">
+                                    <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5v14M15 5v14"/></svg>
+                                    <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg>
+                                </button>
+                                <button type="button" class="s-gallery__btn" data-gallery-next aria-label="Next photo">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </section> <!-- end s-gallery -->
+
+
             <!-- download
             ----------------------------------------------- -->
             <section id="download" class="s-download target-section">
@@ -488,6 +747,111 @@
     ================================================== -->
     <script src="js/plugins.js"></script>
     <script src="js/main.js"></script>
+    <script>
+/* Gallery slideshow: crossfade, auto-advance, pause, keyboard, swipe. No dependencies. */
+(function () {
+    'use strict';
+
+    var root = document.querySelector('[data-gallery]');
+    if (!root) return;
+
+    var slides   = Array.prototype.slice.call(root.querySelectorAll('.s-gallery__slide'));
+    var segs     = Array.prototype.slice.call(root.querySelectorAll('.s-gallery__seg'));
+    var stage    = root.querySelector('.s-gallery__stage');
+    var caption  = root.querySelector('.s-gallery__caption');
+    var count    = root.querySelector('.s-gallery__count');
+    var prevBtn  = root.querySelector('[data-gallery-prev]');
+    var nextBtn  = root.querySelector('[data-gallery-next]');
+    var toggle   = root.querySelector('[data-gallery-toggle]');
+    var reduce   = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    var index = 0;
+    var userPlaying = !reduce.matches;   // user's play/pause choice
+    var hovering = false;
+
+    function render() {
+        var active = userPlaying && !hovering;
+        root.classList.toggle('is-paused', !active);
+        root.classList.toggle('is-stopped', !userPlaying);
+        root.classList.toggle('is-static', reduce.matches);
+        toggle.setAttribute('aria-label', userPlaying ? 'Pause slideshow' : 'Play slideshow');
+        caption.setAttribute('aria-live', userPlaying ? 'off' : 'polite');
+    }
+
+    function show(n) {
+        index = (n + slides.length) % slides.length;
+
+        slides.forEach(function (s, k) {
+            var on = k === index;
+            s.classList.toggle('is-active', on);
+            s.setAttribute('aria-hidden', on ? 'false' : 'true');
+        });
+
+        // clear the active fill, force reflow, then set it again so the animation restarts
+        segs.forEach(function (b) { b.classList.remove('is-active'); });
+        void root.offsetWidth;
+        segs.forEach(function (b, k) {
+            b.classList.toggle('is-done', k < index);
+            if (k === index) b.classList.add('is-active');
+            b.setAttribute('aria-current', k === index ? 'true' : 'false');
+        });
+
+        caption.textContent = slides[index].getAttribute('data-title') || '';
+        count.textContent = (index + 1) + ' / ' + slides.length;
+    }
+
+    // the active segment's fill finishing is the signal to advance
+    segs.forEach(function (b, k) {
+        b.addEventListener('click', function () { show(k); });
+        b.addEventListener('animationend', function () {
+            if (k === index && userPlaying && !reduce.matches) show(index + 1);
+        });
+    });
+
+    prevBtn.addEventListener('click', function () { show(index - 1); });
+    nextBtn.addEventListener('click', function () { show(index + 1); });
+    toggle.addEventListener('click', function () { userPlaying = !userPlaying; render(); });
+
+    // pause while the pointer or keyboard focus is inside the slideshow
+    root.addEventListener('mouseenter', function () { hovering = true; render(); });
+    root.addEventListener('mouseleave', function () { hovering = false; render(); });
+    root.addEventListener('focusin',  function () { hovering = true; render(); });
+    root.addEventListener('focusout', function () { hovering = false; render(); });
+
+    root.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowLeft')  { show(index - 1); }
+        if (e.key === 'ArrowRight') { show(index + 1); }
+    });
+
+    // swipe
+    var startX = null;
+    stage.addEventListener('pointerdown', function (e) { startX = e.clientX; });
+    stage.addEventListener('pointerup', function (e) {
+        if (startX === null) return;
+        var dx = e.clientX - startX;
+        startX = null;
+        if (Math.abs(dx) > 40) show(index + (dx < 0 ? 1 : -1));
+    });
+    stage.addEventListener('pointercancel', function () { startX = null; });
+
+    // missing photo: keep the navy panel with the caption instead of a broken image icon
+    slides.forEach(function (s) {
+        var img = s.querySelector('img');
+        if (!img) return;
+        function miss() { s.classList.add('is-missing'); }
+        img.addEventListener('error', miss);
+        if (img.complete && img.naturalWidth === 0) miss();
+    });
+
+    reduce.addEventListener && reduce.addEventListener('change', function () {
+        userPlaying = !reduce.matches;
+        render();
+    });
+
+    render();
+    show(0);
+})();
+    </script>
 
 </body>
 </html>
